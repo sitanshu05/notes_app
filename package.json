@@ -19,5 +19,13 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@nextui-org/react": "^2.4.8",
+    "framer-motion": "^11.11.2",
+    "next": "^14.2.14",
+    "next-themes": "^0.3.0",
+    "prisma": "^5.20.0",
+    "tailwindcss": "^3.4.13"
+  }
 }

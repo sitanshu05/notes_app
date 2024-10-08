@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src", "../../apps/notes-app/app/components/CourseCard.tsx"],
   "exclude": ["node_modules", "dist"]
 }
