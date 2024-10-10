@@ -1,0 +1,81 @@
+import db from "@repo/db/client"
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../../lib/authOptions";
+import ChapterCard from "../../../components/ChapterCard";
+import {ChapterType} from "@repo/types"
+
+export default async function Notes({params} : {params : {courseId : string, notesId : string,courseName:string}}){
+
+    const getNoteContent = async () =>{
+
+        const session = await getServerSession(authOptions)
+
+        const notes = await db.notes.findFirst({
+            where:{
+                id : Number(params.notesId),
+                course : {
+                    id : Number(params.courseId),
+                    collegeId: session.collegeId
+                }
+            }
+        })
+
+        if(!notes){
+            throw new Error("Notes not found")
+        }
+        console.log(notes)
+        return notes
+    }   
+    const getCourseName = async () => {
+
+        const session = await getServerSession(authOptions)
+
+        if (!session || !session.user.id || !session.collegeId) {
+            throw new Error("User not authorized");
+        }
+
+        const course = await db.course.findFirst({
+            where:{
+                id : Number(params.courseId),
+                collegeId : session.collegeId
+            },
+            select :{
+                name : true
+            }
+        })
+        if(!course){
+            throw new Error("Course not found")
+        }
+        return course
+    }
+
+    const notesByUser = await getNoteContent()
+    // const content = notesByUser.content ? JSON.parse(notesByUser.content as string) : null;
+    const courseName = await getCourseName();
+    return (
+        <div>
+
+            <div className="flex flex-col items-center justify-center pt-10">
+                <h1 className="text-3xl">Notes for {courseName.name} by {notesByUser.username}</h1>
+
+                <div className="flex w-6/12 flex-col gap-5 mt-10">
+                    {
+                    
+                    notesByUser.content ? (notesByUser.content as ChapterType[]).map((note:any)=>{
+                        return (
+                            
+                                <ChapterCard
+                                chapterNumber={note.chapterNumber}
+                                chapterName={note.chapterName}
+                                chapterNotes={note.chapterNotes}
+                                />
+                           
+                        )
+                    })
+                    : "No notes available"}
+                </div>
+            </div>
+        </div>
+    )
+    
+}

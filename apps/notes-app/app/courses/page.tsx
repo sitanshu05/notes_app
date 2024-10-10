@@ -14,9 +14,15 @@ const getCourses = async () => {
         redirect("/api/auth/signin")
     }
     else{
+        const collegeId = session.collegeId;
+        if (!collegeId) {
+            console.log("No college ID found in session. Returning no courses.");
+            return [];  // Return no courses if collegeId is invalid
+        }
+
         const courses = await db.course.findMany({
             where:{
-                collegeId : session.collegeId
+                collegeId : collegeId
             }
         })
         return courses;
@@ -32,6 +38,7 @@ export default async function Courses() {
                     <CourseCard
                     title={course.name}
                     text={course.degree + " " + course.branch}
+                    courseId={course.id}
                     />     
                 )
             })}

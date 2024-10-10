@@ -20,6 +20,7 @@ model User {
   password String 
   collegeId Int
   college College @relation(fields: [collegeId], references: [id])
+  notes Notes[]
 }
 
 model College {
@@ -37,4 +38,17 @@ model Course {
   branch String
   collegeId Int
   college College @relation(fields: [collegeId], references: [id])
+  notes Notes[]
+}
+
+model Notes {
+  id Int @id @default(autoincrement())
+  name String
+  stars Int @default(0)
+  courseId Int
+  username String
+  content Json?
+  course Course @relation(fields: [courseId],references: [id])
+  user User @relation(fields: [username],references: [username])
+
 }
