@@ -1,12 +1,14 @@
 import db from "@repo/db/client"
 import { CourseCard } from "../components/CourseCard";
+
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../lib/authOptions";
-import { redirect } from "next/navigation";
 
 
 
 const getCourses = async () => {
+
     const session = await getServerSession(authOptions)
     console.log(JSON.stringify(session))
     

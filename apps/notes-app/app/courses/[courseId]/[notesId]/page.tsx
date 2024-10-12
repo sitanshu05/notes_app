@@ -1,16 +1,16 @@
 import db from "@repo/db/client"
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/authOptions";
 import ChapterCard from "../../../components/ChapterCard";
 import {ChapterType} from "@repo/types"
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../../lib/authOptions";
 
 export default async function Notes({params} : {params : {courseId : string, notesId : string,courseName:string}}){
 
     const getNoteContent = async () =>{
 
-        const session = await getServerSession(authOptions)
+        const session = await getServerSession(authOptions);
 
-        const notes = await db.notes.findFirst({
+        const notes = await db.notes.findUnique({
             where:{
                 id : Number(params.notesId),
                 course : {
@@ -34,7 +34,7 @@ export default async function Notes({params} : {params : {courseId : string, not
             throw new Error("User not authorized");
         }
 
-        const course = await db.course.findFirst({
+        const course = await db.course.findUnique({
             where:{
                 id : Number(params.courseId),
                 collegeId : session.collegeId
@@ -64,11 +64,13 @@ export default async function Notes({params} : {params : {courseId : string, not
                     notesByUser.content ? (notesByUser.content as ChapterType[]).map((note:any)=>{
                         return (
                             
+                                
                                 <ChapterCard
-                                chapterNumber={note.chapterNumber}
-                                chapterName={note.chapterName}
-                                chapterNotes={note.chapterNotes}
+                                    chapterNumber={note.chapterNumber}
+                                    chapterName={note.chapterName}
+                                    chapterNotes={note.chapterNotes}
                                 />
+                   
                            
                         )
                     })

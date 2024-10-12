@@ -31,7 +31,8 @@ export const authOptions = {
                         console.log("signed in")
                         return {
                             id: existingUser.id.toString(),
-                            collegeId:existingUser.collegeId
+                            collegeId:existingUser.collegeId,
+                            username : existingUser.username
                         }
                     }
                     else{
@@ -50,6 +51,7 @@ export const authOptions = {
         async jwt({token,user} : any){
             if(user){
                 token.id=user.id;
+                token.username = user.username
                 token.collegeId = user.collegeId
             }
             return token
@@ -58,6 +60,7 @@ export const authOptions = {
         async session({session,token} : any){
             if(token){
                 session.user.id = token.id
+                session.user.username = token.username
                 session.collegeId = token.collegeId
             }
             return session

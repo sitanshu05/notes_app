@@ -1,11 +1,5 @@
-"use client"
-import {useBalance} from "@repo/store/useBalance"
-
+import { redirect } from "next/navigation";
 export default function Home() {
-  const balance = useBalance()
-  return (
-   <div className="bg-red-500 text-3xl">
-    Hi {balance}
-   </div>
-  );
+
+  redirect("/courses")
 }

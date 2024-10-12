@@ -44,6 +44,7 @@ model Course {
 model Notes {
   id Int @id @default(autoincrement())
   name String
+  about String
   stars Int @default(0)
   courseId Int
   username String

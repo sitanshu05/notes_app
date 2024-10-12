@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { NotesCard } from "../../components/NotesCard";
 import db from "@repo/db/client"
 import { authOptions } from "../../lib/authOptions";
-
+import { AddChapterButton } from "../../components/AddChapterButton";
 export default async function CoursePage({params} : {params : {courseId : string}}){
 
     const getNotes = async () =>{
@@ -25,16 +25,16 @@ export default async function CoursePage({params} : {params : {courseId : string
         return notes
     }
 
-    const courses = await getNotes()
+    const notes = await getNotes()
 
     return (
         <div className="flex flex-col items-center gap-5 pt-20">
             <h1>Notes for CourseName</h1>
 
             {
-            courses.length > 0 ? 
+            notes.length > 0 ? 
             <div>
-                {courses.map((course)=>{
+                {notes.map((course)=>{
                     return (
                         <NotesCard
                         name={course.name}

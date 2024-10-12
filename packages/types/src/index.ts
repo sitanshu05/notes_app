@@ -11,4 +11,11 @@ export type ChapterType = {
     chapterNotes: ChapterNoteType[]
 }
 
+export type NoteType = {
+    noteName : string,
+    courseId : number,
+    aboutNote : string,
+    chapters : ChapterType[]
+}
+
 
