@@ -1,5 +1,5 @@
 import db from "@repo/db/client"
-import ChapterCard from "../../../components/ChapterCard";
+import ChapterCard from "../../../components/cards/ChapterCard";
 import {ChapterType} from "@repo/types"
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/authOptions";
@@ -61,17 +61,15 @@ export default async function Notes({params} : {params : {courseId : string, not
                 <div className="flex w-6/12 flex-col gap-5 mt-10">
                     {
                     
-                    notesByUser.content ? (notesByUser.content as ChapterType[]).map((note:any)=>{
+                    notesByUser.content ? JSON.parse(JSON.stringify((notesByUser.content))).map((note:any)=>{
                         return (
                             
-                                
                                 <ChapterCard
                                     chapterNumber={note.chapterNumber}
                                     chapterName={note.chapterName}
-                                    chapterNotes={note.chapterNotes}
+                                    chapterContent={note.chapterContent}
                                 />
-                   
-                           
+                       
                         )
                     })
                     : "No notes available"}

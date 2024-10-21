@@ -17,7 +17,7 @@ export const SideBarItems = ({session}: {session : any}) => {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="../public/user_default.png"
+              src="../../../assets/user_default.png"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">

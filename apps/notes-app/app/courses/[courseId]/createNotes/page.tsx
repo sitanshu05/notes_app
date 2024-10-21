@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth";
-import { AddChapterForm } from "../../../components/AddChapterForm";
+import { AddChapterForm } from "../../../components/forms/AddChapterForm";
 import { authOptions } from "../../../lib/authOptions";
 import db from "@repo/db/client"
-import { div } from "framer-motion/client";
 
 export default async function CreateNotes({params}:{params : {courseId : string}}){
 

@@ -46,7 +46,7 @@ export const authOptions = {
             },
         })
     ],
-    secret : "process.env.JWT_SECRET",
+    secret : process.env.JWT_SECRET,
     callbacks :{
         async jwt({token,user} : any){
             if(user){

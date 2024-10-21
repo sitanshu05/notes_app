@@ -1,5 +1,5 @@
 import db from "@repo/db/client"
-import { CourseCard } from "../components/CourseCard";
+import { CourseCard } from "../components/cards/CourseCard";
 
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";

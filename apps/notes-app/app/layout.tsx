@@ -1,5 +1,5 @@
 import { Providers } from "../providers";
-import { Appbar } from "./components/Appbar";
+import { Appbar } from "./components/Appbar"
 import './globals.css'
 
 

@@ -5,6 +5,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navb
 import Link from "next/link";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
+import proifile_temp from "@assets/images/user_default.png"
 
 export function NavBar({session}:any) {
 
@@ -17,17 +18,17 @@ export function NavBar({session}:any) {
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link className="text-foreground"  href="#">
-            Features
+            Courses
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
           <Link href="#" aria-current="page" className="text-secondary">
-            Customers
+            My Notes
           </Link>
         </NavbarItem>
         <NavbarItem>
           <Link className="text-foreground" href="#">
-            Integrations
+            Create Course
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -42,13 +43,13 @@ export function NavBar({session}:any) {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="../public/user_default.png"
+              src="../../assets/user_default.png"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{session.user.username}</p>
             </DropdownItem>
             <DropdownItem key="settings" on>My Settings</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>

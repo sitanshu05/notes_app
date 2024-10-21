@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { NotesCard } from "../../components/NotesCard";
+import { NotesCard } from "../../components/cards/NotesCard";
 import db from "@repo/db/client"
 import { authOptions } from "../../lib/authOptions";
-import { AddChapterButton } from "../../components/AddChapterButton";
+import { AddChapterButton } from "../../components/buttons/AddChapterButton";
 export default async function CoursePage({params} : {params : {courseId : string}}){
 
     const getNotes = async () =>{

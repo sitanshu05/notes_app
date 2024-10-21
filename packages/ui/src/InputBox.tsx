@@ -5,13 +5,13 @@ type InputBoxProps = {
     type: string;
     label: string;
     placeholder?: string;
-    value : string | number
+    value : string | number | File | undefined
     name? : string
     id? : string
     onChange : (e:React.ChangeEvent<HTMLInputElement>) => void
     register?: UseFormRegister<any>;
 }
-export const InputBox =({type,label,placeholder,value,name,id,onChange,register} : InputBoxProps) =>{
+export const InputBox =({type="text",label,placeholder,value,name,id,onChange,register} : InputBoxProps) =>{
     return (
         <Input
             type={type}

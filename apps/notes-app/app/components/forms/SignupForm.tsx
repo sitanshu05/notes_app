@@ -2,7 +2,7 @@
 import {InputBox} from "@repo/ui";
 import { GradientButton } from "@repo/ui";
 import { useState } from "react";
-import {registerUserAction } from "../actions/registerUserAction";
+import {registerUserAction } from "../../actions/registerUserAction";
 
 export const Signup = () => {
 
