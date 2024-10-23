@@ -21,7 +21,7 @@ export function NavBar({session}:any) {
             Courses
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
+        <NavbarItem isActive >
           <Link href="#" aria-current="page" className="text-secondary">
             My Notes
           </Link>

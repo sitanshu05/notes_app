@@ -21,6 +21,7 @@ model User {
   collegeId Int
   college College @relation(fields: [collegeId], references: [id])
   notes Notes[]
+  starredNotes StarredNotes[]
 }
 
 model College {
@@ -49,7 +50,17 @@ model Notes {
   courseId Int
   username String
   content Json?
+  starredBy StarredNotes[]
   course Course @relation(fields: [courseId],references: [id])
   user User @relation(fields: [username],references: [username])
+
+}
+
+model StarredNotes {
+  id Int @id @default(autoincrement())
+  userId Int
+  noteId Int
+  user User @relation(fields: [userId], references: [id])
+  note Notes @relation(fields :[noteId], references: [id])
 
 }
