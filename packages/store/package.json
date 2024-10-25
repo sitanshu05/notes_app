@@ -13,6 +13,7 @@
     "recoil": "^0.7.7"
   },
   "exports": {
-    "./viewinglink" : "./src/hooks/useViewingLink.ts"
+    "./viewinglink" : "./src/hooks/useViewFileLink.ts",
+    "./imageuploadlink" : "./src/hooks/useImageUploadLink.ts"
   }
 }

@@ -20,8 +20,10 @@ model User {
   password String 
   collegeId Int
   college College @relation(fields: [collegeId], references: [id])
+  isVerified Boolean @default(false)
   notes Notes[]
   starredNotes StarredNotes[]
+  verificationToken VerificationToken?
 }
 
 model College {
@@ -49,11 +51,20 @@ model Notes {
   stars Int @default(0)
   courseId Int
   username String
+  image String @default("https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
   content Json?
   starredBy StarredNotes[]
   course Course @relation(fields: [courseId],references: [id])
   user User @relation(fields: [username],references: [username])
 
+}
+
+model VerificationToken {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  token String
+  expiresAt DateTime
+  user User? @relation(fields: [userId],references: [id])
 }
 
 model StarredNotes {

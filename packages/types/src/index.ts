@@ -21,6 +21,7 @@ export interface NoteType {
     noteName : string,
     courseId : number,
     aboutNote : string,
+    image : string,
     chapters : ChapterType[]
 }
 

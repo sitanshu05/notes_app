@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { NotesCard } from "../../components/cards/NotesCard";
 import db from "@repo/db/client"
 import { authOptions } from "../../lib/authOptions";
+import { CreateNoteButton } from "../../components/buttons/CreateNoteButton";
 export default async function CoursePage({params} : {params : {courseId : string}}){
 
     const getNotes = async () =>{
@@ -16,31 +17,44 @@ export default async function CoursePage({params} : {params : {courseId : string
                 courseId : Number(params.courseId),
                 course : {
                     collegeId : session.collegeId
-                }
-                
+                },
             },
+            include : {
+                course : {
+                    select : {
+                        name : true
+                    }
+                }
+            },
+            orderBy : {
+                stars : "desc"
+            }
         })
-        console.log(notes)
+
         return notes
     }
 
     const notes = await getNotes()
 
     return (
-        <div className="flex flex-col items-center gap-5 pt-20">
-            <h1>Notes for CourseName</h1>
+        <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-5 pt-10 md:pt-16 text-left">
+            <div className="w-full flex justify-between items-center px-2 md:px-5 md:pb-8">
+                <h1 className="text-4xl font-bold tracking-tight">Notes for {notes[0]?.course.name}</h1>
+                <CreateNoteButton courseId={Number(params.courseId)}/>
+            </div>
 
             {
             notes.length > 0 ? 
-            <div>
-                {notes.map((course)=>{
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-3">
+                {notes.map((note)=>{
                     return (
                         <NotesCard
-                        name={course.name}
-                        stars={course.stars}
-                        username={course.username}
-                        noteId={course.id}
-                        courseId={course.courseId}
+                        name={note.name}
+                        stars={note.stars}
+                        image={note.image}
+                        username={note.username}
+                        noteId={note.id}
+                        courseId={note.courseId}
                         />
                     )
                 })}

@@ -15,7 +15,10 @@ export default async function CreateNotes({params}:{params : {courseId : string}
                 college : {
                     select : {
                         courses : {
-                            where : {id: Number(params.courseId)}
+                            where : {id: Number(params.courseId)},
+                            select : {
+                                name : true
+                            }
                         }
                     }
                 }

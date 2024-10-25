@@ -10,10 +10,16 @@ export const Signup = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        await registerUserAction(formData);
+    }
+
     return (
         <div className="flex justify-center items-center h-screen ">
             <div className="w-4/12  border border-solid border-gray-700 rounded-lg p-8">
-                <form action={registerUserAction} className="w-full flex flex-col gap-8">
+                <form onSubmit={handleSubmit} className="w-full flex flex-col gap-8">
                     <h2 className="text-2xl">
                         Sign Up
                     </h2>

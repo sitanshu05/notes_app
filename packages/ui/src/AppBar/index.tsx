@@ -5,7 +5,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navb
 import Link from "next/link";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
-import proifile_temp from "@assets/images/user_default.png"
+// import proifile_temp from "@assets/images/user_default.png"
 import { usePathname } from "next/navigation";
 
 export function NavBar({session}:any) {
@@ -74,8 +74,6 @@ export function NavBar({session}:any) {
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">{session.user.username}</p>
             </DropdownItem>
-            <DropdownItem key="settings" on>My Settings</DropdownItem>
-            <DropdownItem key="configurations">Configurations</DropdownItem>
 
             <DropdownItem key="courses" className="sm:hidden sm:collapse" href="/courses"> Courses</DropdownItem>
             <DropdownItem key="mynotes" className="sm:hidden sm:collapse" href="/mynotes">My Notes</DropdownItem>
@@ -87,7 +85,7 @@ export function NavBar({session}:any) {
           </DropdownMenu>
         </Dropdown>
         :
-        <div>
+        <div className="flex gap-5">
             <GradientButton title={"Login"} onClick={() => signIn()}/>
             <GradientButton title={"Signup"}/>
         </div>}

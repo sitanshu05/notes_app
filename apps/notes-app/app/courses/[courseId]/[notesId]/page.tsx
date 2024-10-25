@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/authOptions";
 import {StarButton} from "../../../components/buttons/StarButton"
 import { NotesAccordion } from "../../../components/cards/NotesAccordion";
+import { CapitalizeEveryWord } from "../../../utils/CapitalizeEveryWord";
 
 export default async function Notes({params} : {params : {courseId : string, notesId : string,courseName:string}}){
 
@@ -41,22 +42,26 @@ export default async function Notes({params} : {params : {courseId : string, not
     return (
         <div>
             <div>
-                <img src="https://images.unsplash.com/photo-1607705703571-c5a8695f18f6?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                <img src={notesByUser.image}
                 alt="" 
                 className="w-full h-64 object-cover"/>
             </div>
 
             <div className="flex justify-center px-3">
                 <div className="flex flex-col items-center justify-center pt-10 w-full md:w-10/12">
-                    <div className="flex items-center justify-between mx-2 w-full">
+                    <div className="flex items-start justify-between mx-2 w-full">
                         <div>
-                            <h1 className="text-3xl">Notes for {notesByUser.course.name} by {notesByUser.username}</h1>
+                            <h1 className="text-4xl font-bold tracking-tight">{CapitalizeEveryWord(notesByUser.name)}</h1>
+                            <p className="text-lg font-light text-zinc-400 pt-2">by {notesByUser.username}</p>
                         </div>
                         <div>
                             <StarButton isStarred={notesByUser.starredBy.length > 0} totalStars={notesByUser.stars} noteId={notesByUser.id}/>
                         </div>
                     </div>
-                    <div className="flex w-full flex-col gap-5 mt-10 ">
+                    <div className="text-md text-left mt-5 text-zinc-200 font-normal w-full">
+                        {notesByUser.about}
+                    </div>
+                    <div className="flex w-full flex-col gap-5 my-10 ">
                         {
                         notesByUser.content ?
                         <NotesAccordion chapters={JSON.parse(JSON.stringify((notesByUser.content)))}/>

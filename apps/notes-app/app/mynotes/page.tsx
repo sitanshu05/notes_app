@@ -20,6 +20,9 @@ const getNotes = async () => {
                     name : true
                 }
             }
+        },
+        orderBy : {
+            stars : "desc"
         }
     })
 
@@ -30,15 +33,16 @@ const getNotes = async () => {
 export default async function MyNotes() {
 
     return(
-        <>
-            <div className="text-3xl w-full text-center my-5">Notes</div>
+        <div className="w-full max-w-[1440px] mx-auto mt-16 px-2">
+            <div className="text-3xl font-bold tracking-tight w-full text-left ml-2 md:ml-5 my-5">My Notes</div>
 
-            <div className="flex flex-col gap-5 items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-1 md:p-5">
 
             {
                 (await getNotes()).map(note=>{
                     return <NotesCard
                     name={note.name}
+                    image={note.image}
                     stars={note.stars}
                     username={note.username}
                     noteId={note.id}
@@ -48,7 +52,7 @@ export default async function MyNotes() {
                 })
             }
             </div>
-        </>
+        </div>
     )
 
 }

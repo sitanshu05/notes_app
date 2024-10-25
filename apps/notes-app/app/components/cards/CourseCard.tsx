@@ -15,7 +15,7 @@ export const CourseCard = ({title,text,courseId}: CardProps) => {
 
     return (
 
-        <Card  className="w-full max-w-64" isPressable onPress={()=> router.push(`/courses/${courseId}`)}>
+        <Card className="w-full max-w-64" isPressable onPress={()=> router.push(`/courses/${courseId}`)}>
             <CardHeader className="w-full flex justify-center">
             <p>{title}</p> 
             </CardHeader>

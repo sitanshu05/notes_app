@@ -8,8 +8,8 @@ type GradientButtonProps = {
 }
 export function GradientButton({title,onClick,type="submit"}: GradientButtonProps) {
   return (
-    <Button radius="full" 
-    className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+    <Button radius="medium" 
+    className="bg-gradient-to-tr from-purple-400 to-violet-950 text-white shadow-lg "
     onClick={onClick}
     type={type}
     >

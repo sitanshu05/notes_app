@@ -23,7 +23,7 @@ export function NotesAccordion({chapters}: {chapters: ChapterType[]}) {
                         {
                             chapter.chapterContent.map((content,index)=>{
                                 return(
-                                <div className="flex  flex-col md:flex-row p-5 w-full  md:w-11/12 gap-5 m-3 bg-[#121212] rounded-lg shadow-2xl">
+                                <div className="flex  flex-col md:flex-row p-5 w-full  md:w-11/12 gap-5 m-3 bg-bg_dark rounded-lg shadow-2xl">
                                     <p className="grow">{content.text}</p>
                                  <div className="flex justify-end">
                                         <ChapterCardButton link={content.link}/>

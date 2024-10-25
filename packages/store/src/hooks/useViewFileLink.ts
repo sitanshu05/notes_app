@@ -1,15 +1,15 @@
 
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import { viewingLinkAtom } from "../atoms/viewingLink"
+import { viewFileLinkAtom } from "../atoms/viewFileLink"
 
 
 export const useGetViewingLink = () => {
-    const value = useRecoilValue(viewingLinkAtom);
+    const value = useRecoilValue(viewFileLinkAtom);
     return value;
 }   
 
 export const useSetViewingLink = () => {
-    const setViewingLink = useSetRecoilState(viewingLinkAtom);
+    const setViewingLink = useSetRecoilState(viewFileLinkAtom);
     return (link: string) => {
         setViewingLink(link); // Update the atom with the new link
     };

@@ -34,16 +34,18 @@ const getCourses = async () => {
 export default async function Courses() {
     const courses = await getCourses()
     return (
-        <div className="flex justify-center items-center h-screen">
-            {courses.map(course=>{
-                return (
-                    <CourseCard
-                    title={course.name}
-                    text={course.degree + " " + course.branch}
-                    courseId={course.id}
-                    />     
-                )
-            })}
+        <div>
+            <div className="flex justify-center items-center h-screen">
+                {courses.map(course=>{
+                    return (
+                        <CourseCard
+                        title={course.name}
+                        text={course.degree + " " + course.branch}
+                        courseId={course.id}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }

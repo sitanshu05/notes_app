@@ -1,6 +1,6 @@
 import {atom } from "recoil";
 
-export const viewingLinkAtom = atom<string>({
+export const viewFileLinkAtom = atom<string>({
     key: "viewingLink",
     default: "",
 })

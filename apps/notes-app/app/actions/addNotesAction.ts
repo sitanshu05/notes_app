@@ -25,11 +25,12 @@ export async function addNotesAction(notes : NoteType){
     const session = await getServerSession(authOptions);
 
 
-    const addNotes = await db.notes.create({
+    await db.notes.create({
         data : {
             name : notes.noteName,
             courseId: notes.courseId,
             username : session?.user?.username,
+            image : notes.image,
             about : notes.aboutNote,
             content : JSON.parse(JSON.stringify(notes.chapters))
         }

@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext } from "react-hook-form"
 import { DeleteIconButton, GradientButton } from "@repo/ui"
-import {Input} from "@nextui-org/react"
+import {Button, Input} from "@nextui-org/react"
 import { Tabs, Tab } from "@nextui-org/react"
 export function NotesFormCard({chapterIndex} : any){
 
@@ -17,7 +17,7 @@ export function NotesFormCard({chapterIndex} : any){
             {
                 fields.map((content,index)=>{
                     return(
-                        <div className="border border-gray-600 flex flex-col p-5" key={content.id}>
+                        <div className=" shadow-lg rounded-lg bg-zinc-950 flex flex-col mb-8 p-5" key={content.id}>
 
                             <Input
                             type="text"
@@ -49,11 +49,15 @@ export function NotesFormCard({chapterIndex} : any){
                 })
             }
 
-            <GradientButton
-                title="Add Note"
+            <div className="w-full flex justify-center">
+                <Button className="text-3xl font-extralight text-gray-400 w-full bg-zinc-700 hover:bg-zinc-600 "
                 onClick={() => append({ text: "", link: "" })} // Append a new note
                 type="button"
-            />      
+                >
+                    +
+                </Button>
+            </div>
+    
             
         </div>
     )

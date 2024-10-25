@@ -2,6 +2,9 @@
 
 import db from "@repo/db/client";
 import bcrypt from "bcrypt"
+import { transporter } from "../utils/emailTransporter";
+import { generateVerificationHashAndToken } from "../utils/generateVerificationHashAndToken";
+
 
 export const registerUserAction = async (formData : FormData) => {
 
@@ -41,7 +44,11 @@ export const registerUserAction = async (formData : FormData) => {
             throw new Error("Username is already taken.");
         }
 
-        await db.user.create({
+        //generateToken
+        const verificationToken = generateVerificationHashAndToken();
+
+        
+        const user = await db.user.create({
             data: {
                 email: email,
                 username: username,
@@ -49,6 +56,25 @@ export const registerUserAction = async (formData : FormData) => {
                 collegeId: college.id
             }
         })
+        
+        await db.verificationToken.create({
+            data : {
+                userId : user.id,
+                token : verificationToken.hash,
+                expiresAt : new Date(Date.now() + 1000 * 60 * 60 * 24)
+            }
+        })
+
+        const verificationUrl = `${process.env.NEXTAUTH_URL}/verify?token=${verificationToken.token}&userId=${user.id}`
+
+        const mailOptions = {
+            from: process.env.EMAIL_ADDRESS,
+            to: email,
+            subject: "Verify your email",
+            html: `<p>Click <a href="${verificationUrl}">here</a> to verify your email</p>`
+        };
+
+        await transporter.sendMail(mailOptions);
 
         return {
             message : "success"
