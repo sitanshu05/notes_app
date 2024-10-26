@@ -14,6 +14,7 @@ interface StarButtonProps {
 export function StarButton({isStarred, totalStars,noteId} : StarButtonProps) {
 
     const [starState, setStarState] = useState<{isStarred : boolean, totalStars : number}>({isStarred : isStarred, totalStars : totalStars})
+    
 
     const handleToggle = async () => {
         await starToggleAction(noteId)

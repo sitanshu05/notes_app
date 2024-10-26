@@ -6,17 +6,13 @@ import { transporter } from "../utils/emailTransporter";
 import { generateVerificationHashAndToken } from "../utils/generateVerificationHashAndToken";
 
 
-export const registerUserAction = async (formData : FormData) => {
+export const registerUserAction = async ({username,email,password} : {username : string, email : string, password : string}) => {
 
     // add validation 
     try{
-        const email = formData.get("email") as string;
-        const username = formData.get("username") as string;
-        const password = formData.get("password") as string;
+
 
         const collegeDomain = email.split("@")[1];
-        console.log(email,username,password)
-        console.log(collegeDomain)
 
         const college = await db.college.findFirst({
             where: {
@@ -70,17 +66,44 @@ export const registerUserAction = async (formData : FormData) => {
         const mailOptions = {
             from: process.env.EMAIL_ADDRESS,
             to: email,
-            subject: "Verify your email",
-            html: `<p>Click <a href="${verificationUrl}">here</a> to verify your email</p>`
+            subject: "Verify Your Email to Complete Registration",
+            html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; color: #333; background-color: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+                <h2 style="text-align: center; color: #4CAF50;">Welcome to Our Community!</h2>
+                <p style="font-size: 1.1em;">Hi there,</p>
+                <p>We're excited to have you on board! Please confirm your email address to activate your account and get started.</p>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <a href="${verificationUrl}" 
+                       style="background-color: #4CAF50; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 1.1em;">
+                        Verify Your Email
+                    </a>
+                </div>
+        
+                <p>If you're unable to click the button above, copy and paste this link into your browser:</p>
+                <p style="word-break: break-all; color: #555;">${verificationUrl}</p>
+                
+                <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+                <p style="font-size: 0.9em; color: #777;">
+                    If you didn't create this account, you can safely ignore this email.
+                </p>
+                
+                <p style="font-size: 1.1em;">Thank you,</p>
+                <p>The Notes Team</p>
+            </div>
+            `
         };
 
         await transporter.sendMail(mailOptions);
 
         return {
-            message : "success"
+            success : true,
+            message : "Registration successful! A verification email has been sent."
         }
     }catch(e){
-        console.log(e)
-
+        return {
+            success : false,
+            message: e instanceof Error ? e.message : "An unexpected error occurred.",
+        };
     }
 }

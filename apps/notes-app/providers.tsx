@@ -10,15 +10,15 @@ export const Providers = ({children}: {children: React.ReactNode}) => {
 
     const router = useRouter();
     return (
-    <RecoilRoot>
-        <SessionProvider>
-            <NextUIProvider navigate={router.push}>
-                <NextThemesProvider attribute="class" defaultTheme="dark">
-                    {children}
-                </NextThemesProvider>
-            </NextUIProvider>
-        </SessionProvider>
-    </RecoilRoot>
+        <NextUIProvider navigate={router.push}>
+            <NextThemesProvider attribute="class" defaultTheme="dark">
+                <RecoilRoot>
+                    <SessionProvider>
+                        {children}
+                    </SessionProvider>
+                </RecoilRoot>
+            </NextThemesProvider>
+        </NextUIProvider>
 
 
     )

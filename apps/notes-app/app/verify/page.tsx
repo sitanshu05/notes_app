@@ -2,10 +2,8 @@ import { redirect } from "next/navigation"
 import db from "@repo/db/client"
 import crypto from "crypto"
 import { VerifyEmailLayout } from "../components/layouts/VerifyEmailLayout";
-import {Link} from "@nextui-org/link"
 export default async function Verify(context : any){
 
-    // http://localhost:3000/api/auth/verify?token=720b19a5d4882f2e0001aa50a67d81064ee42232c0b89c4e1d54e426a526e694&userId=18
     const { token, userId } = context.searchParams;
 
     if(!token || !userId){

@@ -5,3 +5,4 @@ export { GradientButton } from "./GradientButton";
 export {NavBar} from "./AppBar/index"
 export {DeleteIconButton} from "./DeleteIconButton"
 export {ImageUploadPopover} from "./ImageUploadPopover"
+export {AlertPopup} from "./Alerts"
