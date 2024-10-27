@@ -44,6 +44,6 @@ export async function sendNewVerificationLink(email: string) {
         from: process.env.EMAIL_ADDRESS,
         to: email,
         subject: "Verify your email",
-        html: `<a href="http://localhost:3000/api/auth/verify?token=${hashAndToken.token}&userId=${user.id}">Verify</a>`
+        html: `<a href="${process.env.NEXTAUTH_URL}/api/auth/verify?token=${hashAndToken.token}&userId=${user.id}">Verify</a>`
     })
 }

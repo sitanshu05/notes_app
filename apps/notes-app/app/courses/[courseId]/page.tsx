@@ -8,6 +8,7 @@ export default async function CoursePage({params} : {params : {courseId : string
     const getNotes = async () =>{
         const session = await getServerSession(authOptions)
 
+
         if (!session || !session.user.id || !session.collegeId) {
             throw new Error("User not authorized");
         }

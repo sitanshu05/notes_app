@@ -7,6 +7,7 @@ export default async function CreateNotes({params}:{params : {courseId : string}
 
     const session = await getServerSession(authOptions);
 
+
     const validateCourseAccess = async () =>{
         
         const user = await db.user.findUnique({

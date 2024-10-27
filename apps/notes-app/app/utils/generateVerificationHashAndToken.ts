@@ -5,6 +5,5 @@ export const generateVerificationHashAndToken = () => {
 
     return {
         token:token,
-        hash :crypto.createHash("sha256").update(token).digest("hex")}
-        ;
+        hash :crypto.createHash("sha256").update(token).digest("hex")};
 }

@@ -21,27 +21,34 @@ const r2 = new S3Client({
 
 export async function getPresignedURL() {
 
-  const session = await getServerSession(authOptions);
-  console.log(session)
 
+  try{
+
+    const session = await getServerSession(authOptions);
   
-  if (!session) {
-    return { failure: "not authenticated" }
+    
+    if (!session) {
+      return { failure: "not authenticated" }
+    }
+  
+    const putObjectCommand = new PutObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME!,
+      Key : `notes/${session.collegeId}/${session.user.id}/${generateFileName()}`
+    })
+  
+    const presignedURL = await getSignedUrl(r2,putObjectCommand, {
+      expiresIn : 90,
+  
+    })
+  
+    const publicUrl = new URL(presignedURL.split("?")[0]!)
+  
+    publicUrl.hostname = process.env.CLOUDFLARE_DOMAIN!
+  
+    return {success: {uploadUrl: presignedURL, publicUrl : publicUrl.toString()}}
+  }catch(e){
+
+    return {failure: "An error occured"}
   }
 
-  const putObjectCommand = new PutObjectCommand({
-    Bucket: process.env.R2_BUCKET_NAME!,
-    Key : `notes/${session.collegeId}/${session.user.id}/${generateFileName()}`
-  })
-
-  const presignedURL = await getSignedUrl(r2,putObjectCommand, {
-    expiresIn : 90,
-
-  })
-
-  const publicUrl = new URL(presignedURL.split("?")[0]!)
-
-  publicUrl.hostname = process.env.CLOUDFLARE_DOMAIN!
-
-  return {success: {uploadUrl: presignedURL, publicUrl : publicUrl.toString()}}
 }
