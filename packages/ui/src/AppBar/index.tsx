@@ -1,16 +1,17 @@
 "use client"
-import { signIn, signOut } from "next-auth/react";
+import {  signOut } from "next-auth/react";
 import { GradientButton } from "../GradientButton";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 import Link from "next/link";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 // import proifile_temp from "@assets/images/user_default.png"
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function NavBar({session}:any) {
 
   const pathname = usePathname()
+  const router = useRouter()
 
   const isActive = (path: string) => pathname === path;
 
@@ -86,8 +87,8 @@ export function NavBar({session}:any) {
         </Dropdown>
         :
         <div className="flex gap-5">
-            <GradientButton title={"Login"} onClick={() => signIn()}/>
-            <GradientButton title={"Signup"}/>
+            <GradientButton title={"Login"} onClick={()=>router.push("/login")}/>
+            <GradientButton title={"Signup"} onClick={()=>router.push("/register")}/>
         </div>}
       </NavbarContent>
     </Navbar>

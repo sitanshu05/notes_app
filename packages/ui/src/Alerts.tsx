@@ -3,21 +3,18 @@ import Alert from '@mui/material/Alert';
 import { AlertTitle } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { IoCloseSharp } from "react-icons/io5";
-import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 
-export function AlertPopup({ message, type }: { message: string; type: 'success' | 'warning' | 'info' | 'error' }) {
-    const [open, setOpen] = useState(true);
+export function AlertPopup({ message, type, onClose }: { message: string; type: 'success' | 'warning' | 'info' | 'error', onClose : ()=> void }) {
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
         },
     });
 
-    if (!open) return null;
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -30,7 +27,7 @@ export function AlertPopup({ message, type }: { message: string; type: 'success'
                         aria-label="close"
                         color="inherit"
                         size="small"
-                        onClick={() => setOpen(false)}
+                        onClick={onClose}
                     >
                         <IoCloseSharp fontSize="inherit" />
                     </IconButton>

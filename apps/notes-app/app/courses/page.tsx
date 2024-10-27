@@ -10,7 +10,6 @@ import { authOptions } from "../lib/authOptions";
 const getCourses = async () => {
 
     const session = await getServerSession(authOptions)
-    console.log(JSON.stringify(session))
     
     if(!session){
         redirect("/api/auth/signin")
@@ -34,18 +33,27 @@ const getCourses = async () => {
 export default async function Courses() {
     const courses = await getCourses()
     return (
-        <div>
-            <div className="flex justify-center items-center h-screen">
-                {courses.map(course=>{
+        <div className="max-w-[1280px] mx-auto flex flex-col items-center gap-5 pt-10 md:pt-16 text-left">
+            <div className="w-full flex justify-between items-center px-2 md:px-5 md:pb-8">
+                <h1 className="text-4xl font-bold tracking-tight">{"Courses"}</h1>
+            </div>
+
+            {
+            courses.length > 0 ? 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-3">
+                {courses.map((course)=>{
                     return (
                         <CourseCard
-                        title={course.name}
-                        text={course.degree + " " + course.branch}
+                        name={course.name}
+                        courseCode="123456"
                         courseId={course.id}
                         />
                     )
                 })}
             </div>
+            :
+            <div>Invalid course id</div>
+            } 
         </div>
     )
 }

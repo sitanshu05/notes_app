@@ -1,21 +1,21 @@
 "use client"
 
-import { NoteType, NoteUploadType } from "@repo/types";
 import { Button, Input} from "@nextui-org/react"
 import { useFieldArray, useForm, FormProvider } from "react-hook-form"
-import { DeleteIconButton, GradientButton, ImageUploadPopover } from "@repo/ui";
+import { AlertPopup, DeleteIconButton, GradientButton, ImageUploadPopover } from "@repo/ui";
 import { NotesFormCard } from "../cards/NotesFormCard";
 import useFormPersist from 'react-hook-form-persist'
-import { getPresignedURL } from "../../actions/getPresignedURL";
-import axios from "axios";
-import { addNotesAction } from "../../actions/addNotesAction";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetImageUploadLink } from "@repo/store/imageuploadlink";
+import { useCreateNotes } from "../../hooks/useCreateNotes";
+import { NoteUploadType } from "@repo/types";
+import { useState } from "react";
 
 
 
 export const AddChapterForm = () => {
     const src = useGetImageUploadLink()
+    const router = useRouter()
 
     const methods = useForm<NoteUploadType>({
 
@@ -26,16 +26,16 @@ export const AddChapterForm = () => {
             chapters : [{ chapterNumber : 1, chapterName: "", chapterContent: [{ text: "", link: "" }] }]
         }
     });
-
-    const {register, handleSubmit,control,watch,setValue} =  methods
+    
+    const {register, handleSubmit,control,watch,setValue,reset} =  methods
     const {courseId} = useParams();
-
-
+    const {loading,error,createNote} = useCreateNotes();
+    const [showErrorAlert, setShowErrorAlert] = useState(false);
 
     useFormPersist("notes",{
         watch,
         setValue,
-        storage : window.localStorage,
+        storage: typeof window !== "undefined" ? window.localStorage : undefined,
     })
 
     const { fields, append , remove } = useFieldArray({
@@ -43,44 +43,25 @@ export const AddChapterForm = () => {
         name: "chapters"
     });
     const onSubmit = async (data : NoteUploadType) => { // add proper validation
+        setShowErrorAlert(false)
 
         data.courseId = Number(courseId);
         data.image = src
 
+        const result = await createNote(data as NoteUploadType)
 
-        const notePromises = data.chapters.map(async (note,index)=>{
-            const chapterPromises = note.chapterContent.map(async (content)=>{
-                
-                if(content.link instanceof FileList){
-                    const file = content.link[0];
-                    if(!file){
-                        return 
-                    }
-
-                    const url = await getPresignedURL();
-
-                    if(url.success?.uploadUrl){
-                        axios.put(url.success.uploadUrl, file, {
-                            headers : {
-                                "Content-Type" : file.type
-                            }
-                        })
-                    }
-                    content.link = url.success?.publicUrl.toString()!;
-                }
-            })
-
-            await Promise.all(chapterPromises)
-        })
-        await Promise.all(notePromises)
-
-        addNotesAction(data as NoteType)
+        if(result?.success){
+            router.push(`/courses/${courseId}/${result.noteId}`)
+        }else{
+            setShowErrorAlert(true);
+        }
     }
 
 
     return (
         <>
              <div className="relative">
+                {showErrorAlert && <AlertPopup onClose={()=>setShowErrorAlert(false)} message={error || ""} type={"error"} />}
                  <div>
                     <img src={src}
                     alt=""
@@ -131,6 +112,7 @@ export const AddChapterForm = () => {
                             <GradientButton
                                 title="Submit"
                                 type="submit"
+                                loading={loading}
                             />
                         </div>
                     </form>

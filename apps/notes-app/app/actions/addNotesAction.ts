@@ -3,45 +3,42 @@ import db from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../lib/authOptions";
 import { NoteType } from "@repo/types";
-// import { connect } from "http2";
-// import { Form } from "aws-sdk/clients/amplifyuibuilder";
-
-
-// model Notes {
-//     id Int @id @default(autoincrement())
-//     name String
-//     stars Int @default(0)
-//     courseId Int
-//     username String
-//     content Json?
-//     course Course @relation(fields: [courseId],references: [id])
-//     user User @relation(fields: [username],references: [username])
-  
-//   }
+import { noteUploadSchema } from "@repo/schemas";
 
 export async function addNotesAction(notes : NoteType){
 
 
-    const session = await getServerSession(authOptions);
-
-
-    await db.notes.create({
-        data : {
-            name : notes.noteName,
-            courseId: notes.courseId,
-            username : session?.user?.username,
-            image : notes.image,
-            about : notes.aboutNote,
-            content : JSON.parse(JSON.stringify(notes.chapters))
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user?.username) {
+            throw new Error("User not authorized");
         }
-    })
-
-
-    return {success : true}
-
-
-
     
+        // Validate note data
+        const parsedNotes = noteUploadSchema.safeParse(notes);
+        if (!parsedNotes.success) {
+            return { success: false, error: parsedNotes.error.message};
+        }
+    
+    
+        const note = await db.notes.create({
+            data : {
+                name : notes.noteName,
+                courseId: notes.courseId,
+                username : session?.user?.username,
+                image : notes.image,
+                about : notes.aboutNote,
+                content : JSON.parse(JSON.stringify(notes.chapters))
+            }
+        })
+        return {success : true, noteId:note.id}
+
+    }catch(e){
+        return {
+            success : false,
+            error: e instanceof Error ? e.message : "An unexpected error occurred.",
+        };
+    }
    
 
 }

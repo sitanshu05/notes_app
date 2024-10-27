@@ -4,14 +4,18 @@ import db from "@repo/db/client";
 import bcrypt from "bcrypt"
 import { transporter } from "../utils/emailTransporter";
 import { generateVerificationHashAndToken } from "../utils/generateVerificationHashAndToken";
+import { registerSchema } from "@repo/schemas";
 
 
 export const registerUserAction = async ({username,email,password} : {username : string, email : string, password : string}) => {
 
-    // add validation 
+    // add validation
     try{
+        const validationResult = registerSchema.safeParse({username,email,password});
 
-
+        if(!validationResult.success){
+            throw new Error(validationResult.error.message);
+        }
         const collegeDomain = email.split("@")[1];
 
         const college = await db.college.findFirst({
