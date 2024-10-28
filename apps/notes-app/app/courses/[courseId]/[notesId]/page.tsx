@@ -4,8 +4,11 @@ import { authOptions } from "../../../lib/authOptions";
 import {StarButton} from "../../../components/buttons/StarButton"
 import { NotesAccordion } from "../../../components/cards/NotesAccordion";
 import { CapitalizeEveryWord } from "../../../utils/CapitalizeEveryWord";
+import { EditNoteButton } from "../../../components/buttons/EditNoteButton";
 
 export default async function Notes({params} : {params : {courseId : string, notesId : string,courseName:string}}){
+
+    const session = await getServerSession(authOptions)
 
     const getNoteContent = async () =>{
 
@@ -40,8 +43,14 @@ export default async function Notes({params} : {params : {courseId : string, not
         return notes
     }   
 
+    const noteBelongToUser = () => {
+        return notesByUser.username == session.user.username
+    }
+
 
     const notesByUser = await getNoteContent()
+
+
     return (
         <div>
             <div>
@@ -57,8 +66,9 @@ export default async function Notes({params} : {params : {courseId : string, not
                             <h1 className="text-4xl font-bold tracking-tight">{CapitalizeEveryWord(notesByUser.name)}</h1>
                             <p className="text-lg font-light text-zinc-400 pt-2">by {notesByUser.username}</p>
                         </div>
-                        <div>
+                        <div className="flex flex-col gap-2">
                             <StarButton isStarred={notesByUser.starredBy.length > 0} totalStars={notesByUser.stars} noteId={notesByUser.id}/>
+                            {noteBelongToUser() && <EditNoteButton courseId={notesByUser.courseId} noteId={notesByUser.id}/>}
                         </div>
                     </div>
                     <div className="text-md text-left mt-5 text-zinc-200 font-normal w-full">
