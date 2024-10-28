@@ -18,6 +18,10 @@ export default async function Notes({params} : {params : {courseId : string, not
         const notes = await db.notes.findUnique({
             where: {
                 id: Number(params.notesId),
+                courseId: Number(params.courseId),
+                course: {
+                    collegeId: session.collegeId
+                }
             },
             include: {
                 course: true,
@@ -33,7 +37,6 @@ export default async function Notes({params} : {params : {courseId : string, not
         if(!notes){
             throw new Error("Notes not found")
         }
-        console.log(notes)
         return notes
     }   
 

@@ -45,13 +45,13 @@ export const AuthForm = ({type} : {type : "register" | "login"}) => {
         else if(type === "login"){
             await signOut({redirect : false})
 
-            const validationResult = loginSchema.safeParse({ email, password });
-            if (!validationResult.success) {
-                setLoading(false);
-                setMessage(validationResult.error.errors[0]?.message)
-                setShowErrorAlert(true);
-                return;
-            }
+            // const validationResult = loginSchema.safeParse({ email, password });
+            // if (!validationResult.success) {
+            //     setLoading(false);
+            //     setMessage(validationResult.error.errors[0]?.message)
+            //     setShowErrorAlert(true);
+            //     return;
+            // }
 
             const result = await signIn('credentials', {
                 email,
@@ -73,11 +73,11 @@ export const AuthForm = ({type} : {type : "register" | "login"}) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden">
             { showSuccessAlert && <AlertPopup message={message || ""} type={"success"} onClose={() => {setShowErrorAlert(false)}} /> }
             {showErrorAlert && <AlertPopup message={message || ""} type="error" onClose={()=>{setShowErrorAlert(false)}} />}
-           <div className="hidden lg:block bg-red-50">
+           <div className="hidden lg:block">
                <Image
                     src="https://images.unsplash.com/photo-1531674842274-9563aa15686f?q=80&w=2565&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     alt="Signup background image"
-                    className= "w-full object-cover overflow-hidden"
+                    className= "w-full object-center overflow-hidden"
                     radius="none"
                     height={830}
                 />

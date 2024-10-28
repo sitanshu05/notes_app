@@ -18,6 +18,7 @@ export interface ChapterUploadType extends Omit<ChapterType,"chapterContent">{
 }
 
 export interface NoteType {
+    id : number,
     noteName : string,
     courseId : number,
     aboutNote : string,

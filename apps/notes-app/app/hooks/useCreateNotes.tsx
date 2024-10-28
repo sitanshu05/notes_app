@@ -9,7 +9,7 @@ import { noteUploadSchema } from "@repo/schemas";
 export function useCreateNotes(){
 
     const [loading,setLoading] = useState(false);
-    const [error,setError] =useState<null | string>(null);
+    const [error,setError] = useState<null | string>(null);
 
     const createNote = async (data : NoteUploadType)=>{
 
